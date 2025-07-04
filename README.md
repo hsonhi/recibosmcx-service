@@ -6,7 +6,7 @@ A .NET Core WebAPI for cryptographic validation of signed documents in PDF forma
 
 ```javascript
 Download package or open with Visual Studio
-Check for or install dependencies with NuGet  
+Check dependencies with NuGet  
 Run program.cs
-Go to <Host>/Swagger/ for api documentation
+Navigate to <Host>/Swagger/ for API documentation
 ```
