@@ -1,6 +1,6 @@
 ## DeCrypto
 
-A .NET Core WebAPI for cryptographic validation of signed documents in PDF format.
+A .NET Core WebAPI for validating a digitally signed document in PDF format.
 
 ### Quick setup
 
