@@ -1,6 +1,6 @@
 ## PDF Validator
 
-A .NET Core WebAPI for validation of digital signatures in PDF documents.
+A .NET Core WebAPI for digital signatures validation within PDF documents.
 
 ### Quick setup
 
