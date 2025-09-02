@@ -1,4 +1,4 @@
-## PDF Validator
+## PDF Validator Service
 
 A .NET Core WebAPI for digital signatures validation within PDF documents.
 
@@ -6,7 +6,7 @@ A .NET Core WebAPI for digital signatures validation within PDF documents.
 
 ```javascript
 Download package or open with Visual Studio
-Check dependencies with NuGet  
+Check dependencies with NuGet
 Run program.cs
 Navigate to <Host>/Swagger/ for API documentation
 ```

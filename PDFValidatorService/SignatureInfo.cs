@@ -12,12 +12,13 @@ using iText.Signatures;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Security.Certificates;
 using Org.BouncyCastle.X509;
+using PDFValidatorService;
 
-namespace DeCrypto
+namespace PDFValidatorService
 {
-    public class C5_02_SignatureInfo
+    public class SignatureInfo
     {
-        public PDFSignatureInfo PDFSignatureInfo { get; set; } = new PDFSignatureInfo();
+        public Signer PDFSigner { get; set; } = new Signer();
 
         public SignaturePermissions InspectSignature(PdfDocument pdfDoc, SignatureUtil signUtil, PdfAcroForm form,
             String name, SignaturePermissions perms)
@@ -111,7 +112,7 @@ namespace DeCrypto
         {
             PdfPKCS7 pkcs7 = signUtil.ReadSignatureData(name);
 
-            PDFSignatureInfo = new PDFSignatureInfo
+            PDFSigner = new Signer
             {
                 SignatureCoverWholeDoc = signUtil.SignatureCoversWholeDocument(name),
                 DocRevision = signUtil.GetRevision(name),
@@ -119,7 +120,7 @@ namespace DeCrypto
                 IntegrityCheck = pkcs7.VerifySignatureIntegrityAndAuthenticity(),
                 DigestAlgorithm = pkcs7.GetDigestAlgorithmName(),
                 EncryptionAlgorithm = pkcs7.GetSignatureAlgorithmName(),
-                Signer = iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN"),
+                SignerInfo = iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN"),
                 Date = pkcs7.GetSignDate().ToUniversalTime().ToString("yyyy-MM-dd HH:mm"),
                 Location = pkcs7.GetLocation(),
                 Reason = pkcs7.GetReason()
@@ -151,7 +152,7 @@ namespace DeCrypto
 
         //public static void Main(String[] args)
         //{
-        //    C5_02_SignatureInfo app = new C5_02_SignatureInfo();
+        //    SignatureInfo app = new SignatureInfo();
         //    app.InspectSignatures("");
         //}
     }

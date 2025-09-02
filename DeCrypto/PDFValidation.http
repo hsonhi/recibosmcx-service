@@ -1,6 +1,0 @@
-@DeCrypto_HostAddress = http://localhost:5225
-
-GET {{DeCrypto_HostAddress}}/decrypto?filepath=
-Accept: application/json
-
-###
