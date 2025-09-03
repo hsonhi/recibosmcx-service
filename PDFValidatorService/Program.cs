@@ -7,7 +7,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowAllOrigins,
                       policy =>
                       {
-                          // Allow requests from any origin
+                          // CORS - Allow requests from any origin
+                          // It's just a sample service, nothing serious here
                           policy.AllowAnyOrigin();
                       });
 });
