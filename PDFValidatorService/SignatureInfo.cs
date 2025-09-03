@@ -32,12 +32,12 @@ namespace PDFValidatorService
 
                 if (pos.GetWidth() == 0 || pos.GetHeight() == 0)
                 {
-                    //Console.Out.WriteLine("Invisible signature");
+                    //Invisible signature
                 }
                 else
                 {
-                    //Console.Out.WriteLine(String.Format("Field on page {0}; llx: {1}, lly: {2}, urx: {3}; ury: {4}",
-                    //    pageNum, pos.GetLeft(), pos.GetBottom(), pos.GetRight(), pos.GetTop()));
+                    //String.Format("Field on page {0}; llx: {1}, lly: {2}, urx: {3}; ury: {4}",
+                    //    pageNum, pos.GetLeft(), pos.GetBottom(), pos.GetRight(), pos.GetTop());
                 }
             }
 
@@ -46,17 +46,16 @@ namespace PDFValidatorService
              * and how the signed bytes are stored in the PDF
              */
             PdfPKCS7 pkcs7 = VerifySignature(signUtil, name);
-            //Console.Out.WriteLine("Digest algorithm: " + pkcs7.GetDigestAlgorithmName());
-            //Console.Out.WriteLine("Encryption algorithm: " + pkcs7.GetSignatureAlgorithmName());
-            //Console.Out.WriteLine("Filter subtype: " + pkcs7.GetFilterSubtype());
+            //"Digest algorithm: " + pkcs7.GetDigestAlgorithmName();
+            //"Encryption algorithm: " + pkcs7.GetSignatureAlgorithmName();
+            //"Filter subtype: " + pkcs7.GetFilterSubtype();
 
             // Get the signing certificate to find out the name of the signer.
             IX509Certificate cert = pkcs7.GetSigningCertificate();
-            //Console.Out.WriteLine("Name of the signer: "
-            //                      + iText.Signatures.CertificateInfo.GetSubjectFields(cert).GetField("CN"));
+            // "Signer"  + iText.Signatures.CertificateInfo.GetSubjectFields(cert).GetField("CN");
             if (pkcs7.GetSignName() != null)
             {
-                //Console.Out.WriteLine("Alternative name of the signer: " + pkcs7.GetSignName());
+                //"Alternative name of the signer: " + pkcs7.GetSignName();
             }
 
             /* Get the signing time.
@@ -72,15 +71,15 @@ namespace PDFValidatorService
              */
             if (TimestampConstants.UNDEFINED_TIMESTAMP_DATE != pkcs7.GetTimeStampDate())
             {
-                //Console.Out.WriteLine("TimeStamp: " +
-                //                      pkcs7.GetTimeStampDate().ToUniversalTime().ToString("yyyy-MM-dd"));
+                //"TimeStamp: " +
+                //                      pkcs7.GetTimeStampDate().ToUniversalTime().ToString("yyyy-MM-dd");
                 TstInfoBC ts = (TstInfoBC)pkcs7.GetTimeStampTokenInfo();
-                //Console.Out.WriteLine("TimeStamp service: " + ts.GetTstInfo().Tsa);
-                //Console.Out.WriteLine("Timestamp verified? " + pkcs7.VerifyTimestampImprint());
+                //"TimeStamp service: " + ts.GetTstInfo().Tsa;
+                //"Timestamp verified? " + pkcs7.VerifyTimestampImprint();
             }
 
-            //Console.Out.WriteLine("Location: " + pkcs7.GetLocation());
-            //Console.Out.WriteLine("Reason: " + pkcs7.GetReason());
+            //"Location: " + pkcs7.GetLocation();
+            //"Reason: " + pkcs7.GetReason();
 
             /* If you want less common entries than PdfPKCS7 object has, such as the contact info,
              * you should use the signature dictionary and get the properties by name.
@@ -89,7 +88,7 @@ namespace PDFValidatorService
             PdfString contact = sigDict.GetAsString(PdfName.ContactInfo);
             if (contact != null)
             {
-                //Console.Out.WriteLine("Contact info: " + contact);
+                //"Contact info: " + contact;
             }
 
             /* Every new signature can add more restrictions to a document, but it can’t take away previous restrictions.
@@ -97,12 +96,12 @@ namespace PDFValidatorService
              * the SignaturePermissions instance of the previous signature, or null if there was none.
              */
             perms = new SignaturePermissions(sigDict, perms);
-            //Console.Out.WriteLine("Signature type: " + (perms.IsCertification() ? "certification" : "approval"));
-            //Console.Out.WriteLine("Filling out fields allowed: " + perms.IsFillInAllowed());
-            //Console.Out.WriteLine("Adding annotations allowed: " + perms.IsAnnotationsAllowed());
+            //"Signature type: " + (perms.IsCertification() ? "certification" : "approval");
+            //"Filling out fields allowed: " + perms.IsFillInAllowed();
+            //"Adding annotations allowed: " + perms.IsAnnotationsAllowed();
             foreach (SignaturePermissions.FieldLock Lock in perms.GetFieldLocks())
             {
-                //Console.Out.WriteLine("Lock: " + Lock);
+                //"Lock: " + Lock;
             }
 
             return perms;
@@ -127,10 +126,10 @@ namespace PDFValidatorService
                 //Contact = pkcs7.GetContactInfo()
             };
 
-            //Console.Out.WriteLine("Signature covers whole document: " + signUtil.SignatureCoversWholeDocument(name));
-            //Console.Out.WriteLine("Document revision: " + signUtil.GetRevision(name) + " of "
-            //                      + signUtil.GetTotalRevisions());
-            ///Console.Out.WriteLine("Integrity check OK? " + pkcs7.VerifySignatureIntegrityAndAuthenticity());
+            //"Signature covers whole document: " + signUtil.SignatureCoversWholeDocument(name);
+            //"Document revision: " + signUtil.GetRevision(name) + " of "
+            //                      + signUtil.GetTotalRevisions();
+            //"Integrity check OK? " + pkcs7.VerifySignatureIntegrityAndAuthenticity();
             return pkcs7;
         }
 
@@ -144,16 +143,9 @@ namespace PDFValidatorService
 
             foreach (String name in names)
             {
-                //Console.Out.WriteLine("===== " + name + " =====");
                 perms = InspectSignature(pdfDoc, signUtil, form, name, perms);
             }
             pdfDoc.Close();
         }
-
-        //public static void Main(String[] args)
-        //{
-        //    SignatureInfo app = new SignatureInfo();
-        //    app.InspectSignatures("");
-        //}
     }
 }
