@@ -12,13 +12,13 @@ using iText.Signatures;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Security.Certificates;
 using Org.BouncyCastle.X509;
-using PDFValidatorService;
+using RecibosMCXService;
 
-namespace PDFValidatorService
+namespace RecibosMCXService
 {
     public class SignatureInfo
     {
-        public Signer PDFSigner { get; set; } = new Signer();
+        public Signer Signer { get; set; } = new Signer();
 
         public SignaturePermissions InspectSignature(PdfDocument pdfDoc, SignatureUtil signUtil, PdfAcroForm form,
             String name, SignaturePermissions perms)
@@ -63,7 +63,7 @@ namespace PDFValidatorService
              * because it's based only on signature author claim. I.e. this value can only be trusted
              * if signature is trusted and it cannot be used for signature verification.
              */
-            Console.Out.WriteLine("Signed on: " + pkcs7.GetSignDate().ToUniversalTime().ToString("yyyy-MM-dd HH:mm"));
+            //Console.Out.WriteLine("Signed on: " + pkcs7.GetSignDate().ToUniversalTime().ToString("yyyy-MM-dd HH:mm"));
 
             /* If a timestamp was applied, retrieve information about it.
              * Timestamp is a secure source of signature creation time,
@@ -111,18 +111,25 @@ namespace PDFValidatorService
         {
             PdfPKCS7 pkcs7 = signUtil.ReadSignatureData(name);
 
-            PDFSigner = new Signer
+            //Is Info MCX Express? Create a function with more parameters to validate other fields
+            //Comment the next 2 lines if you wish to validate other signatures
+            if (iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN") != "noreply@mcxexpress.co.ao")
+                return null;
+
+            Signer = new Signer
             {
-                SignatureCoverWholeDoc = signUtil.SignatureCoversWholeDocument(name),
-                DocRevision = signUtil.GetRevision(name),
-                DocTotalRevisions = signUtil.GetTotalRevisions(),
+                Signature = signUtil.SignatureCoversWholeDocument(name),
+                Revision = signUtil.GetRevision(name),
+                TotalRevisions = signUtil.GetTotalRevisions(),
                 IntegrityCheck = pkcs7.VerifySignatureIntegrityAndAuthenticity(),
                 DigestAlgorithm = pkcs7.GetDigestAlgorithmName(),
                 EncryptionAlgorithm = pkcs7.GetSignatureAlgorithmName(),
-                SignerInfo = iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN"),
+                Info = iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN"),
                 Date = pkcs7.GetSignDate().ToUniversalTime().ToString("yyyy-MM-dd HH:mm"),
-                Location = pkcs7.GetLocation(),
-                Reason = pkcs7.GetReason()
+                Timezone = "GMT",
+                Output = "Signature(s) successfully retrieved",
+                //Location = pkcs7.GetLocation(),
+                //Reason = pkcs7.GetReason()
                 //Contact = pkcs7.GetContactInfo()
             };
 

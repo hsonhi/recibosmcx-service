@@ -1,6 +1,7 @@
-## PDF Validator Service
+## Recibos MCX Express
 
-A .NET Core WebAPI for digital signatures validation within PDF documents.
+A .NET Core WebAPI for digital signatures validation within PDF documents issued by MCX Express App.   
+Plataforma de validação de comprovativos de transferências bancárias emitidas pelo aplicativo MULTICAIXA EXPRESS.
 
 ### Quick setup
 

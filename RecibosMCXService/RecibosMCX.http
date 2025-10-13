@@ -1,0 +1,6 @@
+@RecibosMCX_HostAddress = http://localhost:5225
+
+GET {{RecibosMCX_HostAddress}}/RecibosMCX?url=
+Accept: application/json
+
+###

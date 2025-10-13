@@ -1,6 +1,0 @@
-@PDFValidator_HostAddress = http://localhost:5225
-
-GET {{PDFValidator_HostAddress}}/pdfvalidator?filepath=
-Accept: application/json
-
-###
