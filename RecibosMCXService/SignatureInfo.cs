@@ -125,8 +125,9 @@ namespace RecibosMCXService
                 DigestAlgorithm = pkcs7.GetDigestAlgorithmName(),
                 EncryptionAlgorithm = pkcs7.GetSignatureAlgorithmName(),
                 Info = iText.Signatures.CertificateInfo.GetSubjectFields(pkcs7.GetSigningCertificate()).GetField("CN"),
-                Date = pkcs7.GetSignDate().ToUniversalTime().ToString("yyyy-MM-dd HH:mm"),
-                Timezone = "GMT",
+                //Add 1 hour to match WAT timezone
+                Date = pkcs7.GetSignDate().ToUniversalTime().AddHours(1).ToString("dd-MM-yyyy HH:mm"),
+                Timezone = "WAT",
                 Output = "Signature(s) successfully retrieved",
                 //Location = pkcs7.GetLocation(),
                 //Reason = pkcs7.GetReason()

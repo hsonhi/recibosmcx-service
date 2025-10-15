@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecibosMCXService.Models;
+using System.Net.Mail;
 
 namespace RecibosMCXService.Controllers
 {
@@ -37,6 +38,7 @@ namespace RecibosMCXService.Controllers
         }
 
         [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("requests")]
         public async Task<IActionResult> GetRequests()
         {
@@ -88,7 +90,7 @@ namespace RecibosMCXService.Controllers
                 //Log request to database
                 Requests request = new Requests
                 {
-                    //IpAddress = ,
+                    IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
                     BrowserAgent = Request.Headers["User-Agent"].ToString(),
                     Date = DateTime.Now,
                 };
@@ -115,5 +117,47 @@ namespace RecibosMCXService.Controllers
             });
         }
 
+        [HttpPost]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [Route("contactus")]
+        public async Task<IActionResult> SendEmail([FromForm] Contact contact)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                string sendto = "";
+                string gmail = "";
+                string appPassword = "";
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(contact.email);
+                mail.To.Add(sendto);
+                mail.Subject = "RecibosMCXService";
+                mail.Body = "<h2>" + contact.name + "</h2> - " + contact.email + "<br />" + contact.message;
+                mail.IsBodyHtml = true; // Set to true if your body contains HTML
+
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                smtpClient.Port = 587;
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new System.Net.NetworkCredential(gmail, appPassword);
+                smtpClient.Send(mail);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine($"SMTP Error: {ex.StatusCode} - {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"General Error: {ex.Message}");
+            }
+            return Ok("Email sent successfully");
+        }
     }
 }

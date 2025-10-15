@@ -11,12 +11,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowAllOrigins,
                       policy =>
                       {
-                          // CORS - Allow requests from any origin
-                          // Testing purpose only. Do not use in production code.
+                          // Do not use in production mode.
                           policy.AllowAnyOrigin();
                       });
 });
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -25,7 +23,6 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Recibos MCX Express",
         Description = "Plataforma de validação de comprovativos de transferências bancárias emitidas pelo aplicativo MULTICAIXA EXPRESS.",
-        //Description = "A .NET Core WebAPI for digital signatures validation within PDF documents using iText Library.",
         Version = "v1.0"
     });
 });
