@@ -30,7 +30,7 @@ namespace RecibosMCXService.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Erro ao verificar o documento");
+                _logger.LogError(e, "Erro ao verificar o comprovativo");
                 return new Signer { Output = e.Message };
             }
 
@@ -106,7 +106,7 @@ namespace RecibosMCXService.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Erro ao verificar o documento");
+                _logger.LogError(e, "Erro ao verificar o comprovativo");
                 return BadRequest(e.Message);
             }
             return Ok(new
