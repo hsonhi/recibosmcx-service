@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "RecibosMCX",
-        Description = "Serviço de validação de comprovativos de transferências bancárias emitidas pelo aplicativo MULTICAIXA EXPRESS.",
+        Description = "Plataforma de validação de comprovativos de transferências bancárias emitidas pelo aplicativo MULTICAIXA EXPRESS.",
         Version = "v1.0"
     });
 });
